@@ -35,6 +35,13 @@ volumetric_fog_density = 0.02
 albedo_texture = ExtResource("5_grid")
 uv1_scale = Vector3(200, 200, 200)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(1000, 2, 1000)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_ground")
+size = Vector3(1000, 2, 1000)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_manager")
 enemy_scene = ExtResource("3_enemy")
@@ -47,10 +54,14 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 light_color = Color(1, 0.85, 0.7, 1)
 shadow_enabled = true
 
-[node name="Ground" type="CSGBox3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-size = Vector3(1000, 2, 1000)
-material = SubResource("StandardMaterial3D_ground")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_ground")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

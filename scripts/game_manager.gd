@@ -39,7 +39,10 @@ func spawn_enemy():
 	if not is_instance_valid(player): return
 
 	var angle = randf() * PI * 2
-	var pos = player.global_position + Vector3(sin(angle), 0, cos(angle)) * spawn_radius
+	var offset = Vector3(sin(angle), 0, cos(angle)) * spawn_radius
+	var pos = player.global_position + offset
+	# Ensure they don't spawn underground
+	pos.y = 2.0
 
 	var enemy = enemy_scene.instantiate()
 	add_child(enemy)
